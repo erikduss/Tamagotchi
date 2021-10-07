@@ -16,6 +16,8 @@ namespace Tamagotchi
 
         public MainPage()
         {
+            BindingContext = this;
+
             InitializeComponent();
 
             AddPlayerActions();

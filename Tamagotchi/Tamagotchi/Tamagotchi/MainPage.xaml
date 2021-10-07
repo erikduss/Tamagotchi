@@ -6,6 +6,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
+            <RowDefinition Height="120" />
             <RowDefinition Height="200" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -13,25 +14,17 @@
         </Grid.ColumnDefinitions>
 
         <StackLayout Grid.Row="0" Grid.Column="0">
-            <!--<Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
-                <Label Text="Welcome to Xamarin.Forms!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
-            </Frame>
-            <Label Text="Start developing now" FontSize="Title" Padding="30,10,30,10"/>
-            <Label Text="Make changes to your XAML file and save to see your UI update in the running app with XAML Hot Reload. Give it a try!" FontSize="16" Padding="30,0,30,0"/>
-            <Label FontSize="16" Padding="30,24,30,0">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <FormattedString.Spans>
-                            <Span Text="Learn more at "/>
-                            <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
-                        </FormattedString.Spans>
-                    </FormattedString>
-                </Label.FormattedText>
-            </Label>-->
             <Image x:Name="img_creature" Source="Shark_pup_cat.gif" IsAnimationPlaying="True"/>
         </StackLayout>
-        
         <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Vertical" BackgroundColor="AliceBlue">
+            <ProgressBar Progress="1" ProgressColor="Cyan"/>
+            <ProgressBar Progress="1" ProgressColor="LightBlue"/>
+            <ProgressBar Progress="1" ProgressColor="Pink"/>
+            <ProgressBar Progress="1" ProgressColor="LawnGreen"/>
+            <ProgressBar Progress="1" ProgressColor="Violet"/>
+            <ProgressBar Progress="1" ProgressColor="LightSeaGreen"/>
+        </StackLayout>
+        <StackLayout Grid.Row="2" Grid.Column="0" Orientation="Vertical" BackgroundColor="AliceBlue">
 
             <CarouselView x:Name="carView_Actions" ItemsSource="{Binding PlayerActions}"
                   IndicatorView="indicatorView">
@@ -52,24 +45,6 @@
                IndicatorSize="18"
                MaximumVisible="6" 
                Margin="0,0,0,25"/>
-
-            <!--<ImageButton Source="Shark_pup_food.png"/>
-            <ImageButton Source="Shark_pup_drink.png"/>
-            <ImageButton Source="Shark_pup_attention.png"/>
-            <ImageButton Source="Shark_pup_friends.png"/>
-            <ImageButton Source="Shark_pup_alonetime.png"/>
-            <ImageButton Source="Shark_pup_sleep.png"/>-->
-            
-            <!--<Button Text="Food" FontSize="11"/>
-            <Button Text="Drink" FontSize="11"/>
-            <Button Text="Attention" FontSize="11" Clicked="btn_GiveAttention_Clicked"/>
-            <Button Text="Alone time" FontSize="11"/>
-            <Button Text="Sleep" FontSize="11"/>-->
         </StackLayout>
-        
-
     </Grid>
-
-    
-
 </ContentPage>

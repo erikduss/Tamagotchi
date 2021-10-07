@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tamagotchi.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="LightPink"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
