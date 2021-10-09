@@ -38,7 +38,7 @@ namespace Tamagotchi
         {
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_food.png", LinkedAction = Actions.FEED, ActionInfo = "Feeding time!", ClickFunction = "NavigateToFeedPage", ActionTitle = "Hunger"});
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_drink.png", LinkedAction = Actions.DRINK, ActionInfo = "Do sharks really need to drink?", ClickFunction = "NavigateToDrinkPage", ActionTitle = "Thirst"});
-            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_attention.png", LinkedAction = Actions.ATTENTION, ActionInfo = "Give the little shark some attention!", ClickFunction = "NavigateToAttentionPage", ActionTitle = "Attention"});
+            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_attention.png", LinkedAction = Actions.ATTENTION, ActionInfo = "Give the little shark some attention!", ClickFunction = "NavigateToAttentionPage", ActionTitle = "Attention Need"});
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_friends.png", LinkedAction = Actions.FRIENDS, ActionInfo = "Look for some friends for the little shark.", ClickFunction = "NavigateToFriendsPage", ActionTitle = "Lonelyness"});
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_alonetime.png", LinkedAction = Actions.ALONETIME, ActionInfo = "Leave the little shark alone for a while.", ClickFunction = "NavigateToAlonetimePage", ActionTitle = "Stress"});
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_sleep.png", LinkedAction = Actions.SLEEP, ActionInfo = "Everyone needs a nap!", ClickFunction = "NavigateToSleepPage", ActionTitle = "Tiredness"});
@@ -53,36 +53,33 @@ namespace Tamagotchi
 
         private void btn_Clicked(object sender, EventArgs e)
         {
-            try
-            {
-                PlayerAction curAction = (PlayerAction)carView_Actions.CurrentItem;
+            PlayerAction curAction = playeractions[carView_Actions.Position];
 
-                switch (curAction.LinkedAction)
-                {
+            switch (curAction.LinkedAction)
+            {
                     case Actions.FEED:
-                            NavigateToFeedPage();
+                        NavigateToFeedPage();
                         break;
                     case Actions.DRINK:
-                            NavigateToDrinkPage();
+                        NavigateToDrinkPage();
                         break;
-                    case Actions.ATTENTION:
-                            NavigateToAttentionPage();
+                case Actions.ATTENTION:
+                        NavigateToAttentionPage();
                         break;
                     case Actions.FRIENDS:
-                            NavigateToFriendsPage();
+                        NavigateToFriendsPage();
                         break;
                     case Actions.ALONETIME:
-                            NavigateToAlonetimePage();
+                        NavigateToAlonetimePage();
                         break;
                     case Actions.SLEEP:
-                            NavigateToSleepPage();
+                        NavigateToSleepPage();
+                        break;
+                default:
+                        Console.WriteLine("Player action not defined");
                         break;
                 }
-            }
-            catch
-            {
-                Console.WriteLine("Player action not defined");
-            }
+            
 
             UpdatePlayerActionValues();
         }
@@ -120,32 +117,44 @@ namespace Tamagotchi
 
         private void NavigateToFeedPage()
         {
-            SharkPuppy.HungerValue += 0.1f;
+            SharkPuppy.HungerValue = SharkPuppy.HungerValue - 0.1f;
+            /*if (SharkPuppy.HungerValue < 0) SharkPuppy.HungerValue = 0;
+            else if (SharkPuppy.HungerValue > 1) SharkPuppy.HungerValue = 1;*/
             Console.WriteLine("Navigate to feed");
         }
         private void NavigateToDrinkPage()
         {
-            SharkPuppy.ThirstValue += 0.1f;
+            SharkPuppy.ThirstValue = SharkPuppy.ThirstValue - 0.1f;
+            //if (SharkPuppy.ThirstValue < 0) SharkPuppy.ThirstValue = 0;
+            //else if (SharkPuppy.ThirstValue > 1) SharkPuppy.ThirstValue = 1;
             Console.WriteLine("Navigate to drink");
         }
         private void NavigateToAttentionPage()
         {
-            SharkPuppy.AttentionValue += 0.1f;
+            SharkPuppy.AttentionValue = SharkPuppy.AttentionValue - 0.1f;
+            //if (SharkPuppy.AttentionValue < 0) SharkPuppy.AttentionValue = 0;
+            //else if (SharkPuppy.AttentionValue > 1) SharkPuppy.AttentionValue = 1;
             Console.WriteLine("Navigate to attention");
         }
         private void NavigateToFriendsPage()
         {
-            SharkPuppy.FriendsNeededValue += 0.1f;
+            SharkPuppy.FriendsNeededValue = SharkPuppy.FriendsNeededValue - 0.1f;
+            //if (SharkPuppy.FriendsNeededValue < 0) SharkPuppy.FriendsNeededValue = 0;
+            //else if (SharkPuppy.FriendsNeededValue > 1) SharkPuppy.FriendsNeededValue = 1;
             Console.WriteLine("Navigate to friends");
         }
         private void NavigateToAlonetimePage()
         {
-            SharkPuppy.AloneTimeValue += 0.1f;
+            SharkPuppy.AloneTimeValue = SharkPuppy.AloneTimeValue - 0.1f;
+            //if (SharkPuppy.AloneTimeValue < 0) SharkPuppy.AloneTimeValue = 0;
+            //else if (SharkPuppy.AloneTimeValue > 1) SharkPuppy.AloneTimeValue = 1;
             Console.WriteLine("Navigate to alone time");
         }
         private void NavigateToSleepPage()
         {
-            SharkPuppy.TiredValue += 0.1f;
+            SharkPuppy.TiredValue = SharkPuppy.TiredValue - 0.1f;
+            //if (SharkPuppy.TiredValue < 0) SharkPuppy.TiredValue = 0;
+            //else if (SharkPuppy.TiredValue > 1) SharkPuppy.TiredValue = 1;
             Console.WriteLine("Navigate to sleep");
         }
     }
