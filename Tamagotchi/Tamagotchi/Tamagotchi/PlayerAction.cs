@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace Tamagotchi
@@ -14,7 +15,7 @@ namespace Tamagotchi
         SLEEP
     }
 
-    public class PlayerAction
+    public class PlayerAction : INotifyPropertyChanged
     {
         public string ImageName { get; set; }
         public Actions LinkedAction { get; set; }
@@ -22,5 +23,11 @@ namespace Tamagotchi
         public string ActionInfo { get; set; }
 
         public string ClickFunction { get; set; }
+
+        public string ActionTitle { get; set; }
+
+        public string ActionValue { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
