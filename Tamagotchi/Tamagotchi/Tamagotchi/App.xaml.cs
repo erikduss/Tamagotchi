@@ -8,6 +8,8 @@ namespace Tamagotchi
     {
         public App()
         {
+            DependencyService.RegisterSingleton<IDataStore<Creature>>(new LocalCreatureStore());
+
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());

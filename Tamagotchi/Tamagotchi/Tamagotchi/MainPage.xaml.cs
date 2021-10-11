@@ -26,6 +26,14 @@ namespace Tamagotchi
 
         public MainPage()
         {
+            var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
+            SharkPuppy = creatureDataStore.ReadItem();
+            if(SharkPuppy == null)
+            {
+                SharkPuppy = new Creature();
+                creatureDataStore.CreateItem(SharkPuppy);
+            }
+
             BindingContext = this;
 
             InitializeComponent();
