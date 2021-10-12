@@ -136,6 +136,7 @@ namespace Tamagotchi
             //if (SharkPuppy.ThirstValue < 0) SharkPuppy.ThirstValue = 0;
             //else if (SharkPuppy.ThirstValue > 1) SharkPuppy.ThirstValue = 1;
             Console.WriteLine("Navigate to drink");
+            Navigation.PushAsync(new DrinkingMinigame());
         }
         private void NavigateToAttentionPage()
         {
