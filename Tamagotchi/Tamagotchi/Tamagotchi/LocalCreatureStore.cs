@@ -2,38 +2,39 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace Tamagotchi
 {
     class LocalCreatureStore : IDataStore<Creature>
     {
-        public bool CreateItem(Creature item)
+        public Task<bool> CreateItem(Creature item)
         {
             string creatureAsText = JsonConvert.SerializeObject(item);
 
             Preferences.Set("MyCreature",creatureAsText);
 
-            return true;
+            return Task.FromResult(true);
         }
 
-        public bool DeleteItem(Creature item)
+        public Task<bool> DeleteItem(Creature item)
         {
             Preferences.Remove("MyCreature");
 
-            return true;
+            return Task.FromResult(true);
         }
 
-        public Creature ReadItem()
+        public Task<Creature> ReadItem()
         {
             string creatureAsText = Preferences.Get("MyCreature", "");
 
             Creature creatureFromText = JsonConvert.DeserializeObject<Creature>(creatureAsText);
 
-            return creatureFromText;
+            return Task.FromResult(creatureFromText);
         }
 
-        public bool UpdateItem(Creature item)
+        public Task<bool> UpdateItem(Creature item)
         {
             if (Preferences.ContainsKey("MyCreature"))
             {
@@ -41,9 +42,9 @@ namespace Tamagotchi
 
                 Preferences.Set("MyCreature", creatureAsText);
 
-                return true;
+                return Task.FromResult(true);
             }
-            else return false;
+            else return Task.FromResult(true);
         }
     }
 }

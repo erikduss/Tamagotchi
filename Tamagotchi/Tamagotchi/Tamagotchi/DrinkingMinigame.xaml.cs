@@ -13,6 +13,7 @@ namespace Tamagotchi
     public partial class DrinkingMinigame : ContentPage
     {
         private float imageScale = 1;
+        private float maxImageScale = 1.5f;
 
         private int scoreInPercentage = 0;
 
@@ -30,7 +31,12 @@ namespace Tamagotchi
         {
             if (timerRunning)
             {
-                imageScale += 0.01f;
+                if (imageScale < maxImageScale)
+                {
+                    imageScale += 0.01f;
+                }
+                else imageScale = 1.5f;
+                
                 img_SharkPup.ScaleTo(imageScale, 250);
                 UpdateTitle();
             }
@@ -81,7 +87,7 @@ namespace Tamagotchi
         {
             if(imageScale > 1 && timerRunning)
             {
-                imageScale -= 0.012f;
+                imageScale -= 0.01f;
                 img_SharkPup.ScaleTo(imageScale, 250);
             }
 

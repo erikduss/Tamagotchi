@@ -7,8 +7,12 @@ namespace Tamagotchi
 {
     public class Creature : INotifyPropertyChanged
     {
+        public int id { get; set; }
+
+        public string name { get; set; }
+
         private float hungerValue;
-        public float HungerValue 
+        public float hunger 
         { 
             get { return hungerValue; }
             set 
@@ -23,7 +27,7 @@ namespace Tamagotchi
         }
 
         private float thirstValue;
-        public float ThirstValue
+        public float thirst
         {
             get { return thirstValue; }
             set
@@ -83,7 +87,7 @@ namespace Tamagotchi
         }
 
         private float aloneTimeValue;
-        public float AloneTimeValue
+        public float stimulated
         {
             get { return aloneTimeValue; }
             set

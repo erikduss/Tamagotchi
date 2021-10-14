@@ -8,7 +8,7 @@ namespace Tamagotchi
     {
         public App()
         {
-            DependencyService.RegisterSingleton<IDataStore<Creature>>(new LocalCreatureStore());
+            DependencyService.RegisterSingleton<IDataStore<Creature>>(new RemoteCreatureStore());
 
             InitializeComponent();
 
