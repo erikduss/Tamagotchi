@@ -25,7 +25,7 @@ namespace Tamagotchi
 
                     Creature postedCreature = JsonConvert.DeserializeObject<Creature>(postedCreatureAsText);
 
-                    Preferences.Set("MyCreatureId", postedCreature.id);
+                    Preferences.Set("MyCreatureID", postedCreature.id);
 
                     return true;
                 }
@@ -40,9 +40,33 @@ namespace Tamagotchi
             }
         }
 
-        public bool DeleteItem(Creature item)
+        public async Task<bool> DeleteItem(Creature item)
         {
-            throw new NotImplementedException();
+            int creatureID = Preferences.Get("MyCreatureID", 0);
+            if (creatureID == 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                var response = await client.GetAsync("https://tamagotchi.hku.nl/api/Creatures/" + creatureID);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var successDelete = await client.DeleteAsync("https://tamagotchi.hku.nl/api/Creatures/" + creatureID);
+
+                    return successDelete.IsSuccessStatusCode;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                return false;
+            }
         }
 
         public async Task<Creature> ReadItem()
@@ -78,9 +102,42 @@ namespace Tamagotchi
             }
         }
 
-        public bool UpdateItem(Creature item)
+        public async Task<bool> UpdateItem(Creature item)
         {
-            throw new NotImplementedException();
+            string creatureAsText = JsonConvert.SerializeObject(item);
+
+            int creatureID = Preferences.Get("MyCreatureID", 0);
+            if (creatureID == 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                var getResponse = await client.GetAsync("https://tamagotchi.hku.nl/api/Creatures/" + creatureID);
+
+                if (getResponse.IsSuccessStatusCode)
+                {
+                    var response = await client.PutAsync("https://tamagotchi.hku.nl/api/Creatures/" + creatureID, new StringContent(creatureAsText, Encoding.UTF8, "application/json"));
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                return false;
+            }
         }
     }
 }

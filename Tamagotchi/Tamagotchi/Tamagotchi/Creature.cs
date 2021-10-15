@@ -42,7 +42,7 @@ namespace Tamagotchi
         }
 
         private float attentionValue;
-        public float AttentionValue
+        public float boredom
         {
             get { return attentionValue; }
             set
@@ -57,7 +57,7 @@ namespace Tamagotchi
         }
 
         private float tiredValue;
-        public float TiredValue
+        public float tired
         {
             get { return tiredValue; }
             set
@@ -72,7 +72,7 @@ namespace Tamagotchi
         }
 
         private float friendsNeededValue;
-        public float FriendsNeededValue
+        public float loneliness
         {
             get { return friendsNeededValue; }
             set

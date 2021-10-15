@@ -56,14 +56,14 @@ namespace Tamagotchi
         {
             var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
 
-            Creature sharkPup = creatureDataStore.ReadItem();
+            Creature sharkPup = creatureDataStore.ReadItem().Result;
 
-            float newThirstValue = sharkPup.ThirstValue - (imageScale - 1);
+            float newThirstValue = sharkPup.thirst - (imageScale - 1);
             if (newThirstValue < 0) newThirstValue = 0;
 
-            sharkPup.ThirstValue = newThirstValue;
+            sharkPup.thirst = newThirstValue;
 
-            if (creatureDataStore.UpdateItem(sharkPup))
+            if (creatureDataStore.UpdateItem(sharkPup).Result)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {

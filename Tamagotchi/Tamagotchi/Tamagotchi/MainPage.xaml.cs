@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace Tamagotchi
 {
@@ -16,22 +17,34 @@ namespace Tamagotchi
 
         public Creature SharkPuppy { get; set; } = new Creature
         {
-            HungerValue = 0.5f,
-            ThirstValue = 0.5f,
-            AloneTimeValue = 0.5f,
-            AttentionValue = 0.5f,
-            FriendsNeededValue = 0.5f,
-            TiredValue = 0.5f
+            name = "Erik's Tamagotchi",
+            hunger = 0.5f,
+            thirst = 0.5f,
+            boredom = 0.5f,
+            loneliness = 0.5f,
+            stimulated = 0.5f,
+            tired = 0.5f
         };
 
         public MainPage()
         {
             var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
-            SharkPuppy = creatureDataStore.ReadItem();
+            SharkPuppy = creatureDataStore.ReadItem().Result;
             if(SharkPuppy == null)
             {
-                SharkPuppy = new Creature();
-                creatureDataStore.CreateItem(SharkPuppy);
+                SharkPuppy = new Creature
+                {
+                    name = "Erik's Tamagotchi",
+                    hunger = 0.5f,
+                    thirst = 0.5f,
+                    boredom = 0.5f,
+                    loneliness = 0.5f,
+                    stimulated = 0.5f,
+                    tired = 0.5f
+                };
+
+                Preferences.Set("MyCreatureID", 10);
+                //creatureDataStore.CreateItem(SharkPuppy);
             }
 
             BindingContext = this;
@@ -99,22 +112,22 @@ namespace Tamagotchi
                 switch (item.LinkedAction)
                 {
                     case Actions.FEED:
-                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.HungerValue) + "%";
+                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.hunger) + "%";
                         break;
                     case Actions.DRINK:
-                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.ThirstValue) + "%";
+                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.thirst) + "%";
                         break;
                     case Actions.ATTENTION:
-                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.AttentionValue) + "%";
+                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.boredom) + "%";
                         break;
                     case Actions.FRIENDS:
-                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.FriendsNeededValue) + "%";
+                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.loneliness) + "%";
                         break;
                     case Actions.ALONETIME:
-                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.AloneTimeValue) + "%";
+                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.stimulated) + "%";
                         break;
                     case Actions.SLEEP:
-                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.TiredValue) + "%";
+                        item.ActionValue = ConvertFloatToPercentage(SharkPuppy.tired) + "%";
                         break;
                     default:
                         Console.WriteLine("Undefined player action");
@@ -125,14 +138,14 @@ namespace Tamagotchi
 
         private void NavigateToFeedPage()
         {
-            SharkPuppy.HungerValue = SharkPuppy.HungerValue - 0.1f;
+            SharkPuppy.hunger = SharkPuppy.hunger - 0.1f;
             /*if (SharkPuppy.HungerValue < 0) SharkPuppy.HungerValue = 0;
             else if (SharkPuppy.HungerValue > 1) SharkPuppy.HungerValue = 1;*/
             Console.WriteLine("Navigate to feed");
         }
         private void NavigateToDrinkPage()
         {
-            SharkPuppy.ThirstValue = SharkPuppy.ThirstValue - 0.1f;
+            SharkPuppy.thirst = SharkPuppy.thirst - 0.1f;
             //if (SharkPuppy.ThirstValue < 0) SharkPuppy.ThirstValue = 0;
             //else if (SharkPuppy.ThirstValue > 1) SharkPuppy.ThirstValue = 1;
             Console.WriteLine("Navigate to drink");
@@ -140,28 +153,28 @@ namespace Tamagotchi
         }
         private void NavigateToAttentionPage()
         {
-            SharkPuppy.AttentionValue = SharkPuppy.AttentionValue - 0.1f;
+            SharkPuppy.boredom = SharkPuppy.boredom - 0.1f;
             //if (SharkPuppy.AttentionValue < 0) SharkPuppy.AttentionValue = 0;
             //else if (SharkPuppy.AttentionValue > 1) SharkPuppy.AttentionValue = 1;
             Console.WriteLine("Navigate to attention");
         }
         private void NavigateToFriendsPage()
         {
-            SharkPuppy.FriendsNeededValue = SharkPuppy.FriendsNeededValue - 0.1f;
+            SharkPuppy.loneliness = SharkPuppy.loneliness - 0.1f;
             //if (SharkPuppy.FriendsNeededValue < 0) SharkPuppy.FriendsNeededValue = 0;
             //else if (SharkPuppy.FriendsNeededValue > 1) SharkPuppy.FriendsNeededValue = 1;
             Console.WriteLine("Navigate to friends");
         }
         private void NavigateToAlonetimePage()
         {
-            SharkPuppy.AloneTimeValue = SharkPuppy.AloneTimeValue - 0.1f;
+            SharkPuppy.stimulated = SharkPuppy.stimulated - 0.1f;
             //if (SharkPuppy.AloneTimeValue < 0) SharkPuppy.AloneTimeValue = 0;
             //else if (SharkPuppy.AloneTimeValue > 1) SharkPuppy.AloneTimeValue = 1;
             Console.WriteLine("Navigate to alone time");
         }
         private void NavigateToSleepPage()
         {
-            SharkPuppy.TiredValue = SharkPuppy.TiredValue - 0.1f;
+            SharkPuppy.tired = SharkPuppy.tired - 0.1f;
             //if (SharkPuppy.TiredValue < 0) SharkPuppy.TiredValue = 0;
             //else if (SharkPuppy.TiredValue > 1) SharkPuppy.TiredValue = 1;
             Console.WriteLine("Navigate to sleep");
