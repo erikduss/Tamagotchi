@@ -74,6 +74,7 @@ namespace Tamagotchi
             int creatureID = Preferences.Get("MyCreatureID", 0);
             if(creatureID == 0)
             {
+                Preferences.Set("MyCreatureID", 10);
                 return null;
             }
 

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Essentials;
 
 namespace Tamagotchi
 {
@@ -43,7 +42,6 @@ namespace Tamagotchi
                     tired = 0.5f
                 };
 
-                Preferences.Set("MyCreatureID", 10);
                 //creatureDataStore.CreateItem(SharkPuppy);
             }
 
