@@ -80,7 +80,6 @@ namespace Tamagotchi
 
             try
             {
-                //TODO: My emulator does not get a response from this get request -> The app doesn't start. It never gets past this line.
                 var response = await client.GetAsync("https://tamagotchi.hku.nl/api/Creatures/" + creatureID);
 
                 if (response.IsSuccessStatusCode)
@@ -88,8 +87,6 @@ namespace Tamagotchi
                     string postedCreatureAsText = await response.Content.ReadAsStringAsync();
 
                     Creature postedCreature = JsonConvert.DeserializeObject<Creature>(postedCreatureAsText);
-
-                    //Preferences.Set("MyCreatureId", postedCreature.ID);
 
                     return postedCreature;
                 }

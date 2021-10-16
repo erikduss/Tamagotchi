@@ -14,24 +14,26 @@ namespace Tamagotchi
         ObservableCollection<PlayerAction> playeractions = new ObservableCollection<PlayerAction>();
         public ObservableCollection<PlayerAction> PlayerActions { get { return playeractions; } }
 
-        public Creature SharkPuppy { get; set; } = new Creature
-        {
-            name = "Erik's Tamagotchi",
-            hunger = 0.5f,
-            thirst = 0.5f,
-            boredom = 0.5f,
-            loneliness = 0.5f,
-            stimulated = 0.5f,
-            tired = 0.5f
-        };
+        public Creature SharkPuppy { get; set; }
 
         public MainPage()
         {
             var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
 
-            //The ReadItem does not work at the moment. The emulator does not get a response from the database.
-            var SharkPuppy = creatureDataStore.ReadItem().Result;
-            if(SharkPuppy == null)
+            BindingContext = this;
+
+            InitializeComponent();
+
+            AddPlayerActions();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
+            SharkPuppy = await creatureDataStore.ReadItem();
+            if (SharkPuppy == null)
             {
                 SharkPuppy = new Creature
                 {
@@ -43,16 +45,9 @@ namespace Tamagotchi
                     stimulated = 0.5f,
                     tired = 0.5f
                 };
-
                 //I don't want to create multiple entries in the database while testing.
-                //creatureDataStore.CreateItem(SharkPuppy);
+                //await creatureDataStore.CreateItem(SharkPuppy);
             }
-
-            BindingContext = this;
-
-            InitializeComponent();
-
-            AddPlayerActions();
             UpdatePlayerActionValues();
         }
 
@@ -70,7 +65,8 @@ namespace Tamagotchi
 
         private int ConvertFloatToPercentage(float floatValue)
         {
-            return (int)(floatValue * 100);
+            var number = Math.Ceiling(floatValue * 100);
+            return (int)number;
         }
 
         private void btn_Clicked(object sender, EventArgs e)
@@ -79,29 +75,28 @@ namespace Tamagotchi
 
             switch (curAction.LinkedAction)
             {
-                    case Actions.FEED:
-                        NavigateToFeedPage();
-                        break;
-                    case Actions.DRINK:
-                        NavigateToDrinkPage();
-                        break;
+                case Actions.FEED:
+                    NavigateToFeedPage();
+                    break;
+                case Actions.DRINK:
+                    NavigateToDrinkPage();
+                    break;
                 case Actions.ATTENTION:
-                        NavigateToAttentionPage();
-                        break;
-                    case Actions.FRIENDS:
-                        NavigateToFriendsPage();
-                        break;
-                    case Actions.ALONETIME:
-                        NavigateToAlonetimePage();
-                        break;
-                    case Actions.SLEEP:
-                        NavigateToSleepPage();
-                        break;
+                    NavigateToAttentionPage();
+                    break;
+                case Actions.FRIENDS:
+                    NavigateToFriendsPage();
+                    break;
+                case Actions.ALONETIME:
+                    NavigateToAlonetimePage();
+                    break;
+                case Actions.SLEEP:
+                    NavigateToSleepPage();
+                    break;
                 default:
-                        Console.WriteLine("Player action not defined");
-                        break;
-                }
-            
+                    Console.WriteLine("Player action not defined");
+                    break;
+            }
 
             UpdatePlayerActionValues();
         }
