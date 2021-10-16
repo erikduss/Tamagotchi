@@ -28,7 +28,9 @@ namespace Tamagotchi
         public MainPage()
         {
             var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
-            SharkPuppy = creatureDataStore.ReadItem().Result;
+
+            //The ReadItem does not work at the moment. The emulator does not get a response from the database.
+            var SharkPuppy = creatureDataStore.ReadItem().Result;
             if(SharkPuppy == null)
             {
                 SharkPuppy = new Creature
@@ -42,6 +44,7 @@ namespace Tamagotchi
                     tired = 0.5f
                 };
 
+                //I don't want to create multiple entries in the database while testing.
                 //creatureDataStore.CreateItem(SharkPuppy);
             }
 

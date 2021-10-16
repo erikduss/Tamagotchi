@@ -74,12 +74,13 @@ namespace Tamagotchi
             int creatureID = Preferences.Get("MyCreatureID", 0);
             if(creatureID == 0)
             {
-                Preferences.Set("MyCreatureID", 10);
+                Preferences.Set("MyCreatureID", 10); //My creature is already in the database, I dont want to create duplicates while testing.
                 return null;
             }
 
             try
             {
+                //TODO: My emulator does not get a response from this get request -> The app doesn't start. It never gets past this line.
                 var response = await client.GetAsync("https://tamagotchi.hku.nl/api/Creatures/" + creatureID);
 
                 if (response.IsSuccessStatusCode)
