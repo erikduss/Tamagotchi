@@ -20,6 +20,8 @@ namespace Tamagotchi
         private Timer creatureStatusReduce = null;
         private int statusReductions = 0;
 
+        private IDataStore<Creature> creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
+
         public MainPage()
         {
             var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
@@ -35,7 +37,6 @@ namespace Tamagotchi
         {
             base.OnAppearing();
 
-            var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
             SharkPuppy = await creatureDataStore.ReadItem();
             if (SharkPuppy == null)
             {
@@ -57,7 +58,7 @@ namespace Tamagotchi
 
             statusReductions = 0;
 
-            creatureStatusReduce = new Timer(increaseValues, null, 0, 600000); //every 10 minutes
+            creatureStatusReduce = new Timer(increaseValues, null, 0, 60000); //every 10 minutes
         }
 
         private void AddPlayerActions()
@@ -83,9 +84,8 @@ namespace Tamagotchi
                 SharkPuppy.stimulated += 0.01f;
                 SharkPuppy.tired += 0.01f;
 
-                Console.WriteLine("Increasing Values -> " + DateTime.Now);
-
                 UpdatePlayerActionValues();
+                Console.WriteLine(creatureDataStore.UpdateItem(SharkPuppy).Result);
             }
             statusReductions++;
         }
@@ -173,10 +173,8 @@ namespace Tamagotchi
         }
         private void NavigateToAttentionPage()
         {
-            SharkPuppy.boredom = SharkPuppy.boredom - 0.1f;
-            //if (SharkPuppy.AttentionValue < 0) SharkPuppy.AttentionValue = 0;
-            //else if (SharkPuppy.AttentionValue > 1) SharkPuppy.AttentionValue = 1;
             Console.WriteLine("Navigate to attention");
+            Navigation.PushAsync(new AttentionMinigame());
         }
         private void NavigateToFriendsPage()
         {
