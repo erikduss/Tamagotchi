@@ -11,6 +11,8 @@ namespace Tamagotchi
 
         public string name { get; set; }
 
+        public string userName { get; set; }
+
         private float hungerValue;
         public float hunger 
         { 

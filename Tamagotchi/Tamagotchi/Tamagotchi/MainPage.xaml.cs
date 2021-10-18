@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -15,6 +16,9 @@ namespace Tamagotchi
         public ObservableCollection<PlayerAction> PlayerActions { get { return playeractions; } }
 
         public Creature SharkPuppy { get; set; }
+
+        private Timer creatureStatusReduce = null;
+        private int statusReductions = 0;
 
         public MainPage()
         {
@@ -38,6 +42,7 @@ namespace Tamagotchi
                 SharkPuppy = new Creature
                 {
                     name = "Erik's Tamagotchi",
+                    userName = "Erik",
                     hunger = 0.5f,
                     thirst = 0.5f,
                     boredom = 0.5f,
@@ -49,18 +54,40 @@ namespace Tamagotchi
                 //await creatureDataStore.CreateItem(SharkPuppy);
             }
             UpdatePlayerActionValues();
+
+            statusReductions = 0;
+
+            creatureStatusReduce = new Timer(increaseValues, null, 0, 600000); //every 10 minutes
         }
 
         private void AddPlayerActions()
         {
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_food.png", LinkedAction = Actions.FEED, ActionInfo = "Feeding time!", ClickFunction = "NavigateToFeedPage", ActionTitle = "Hunger"});
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_drink.png", LinkedAction = Actions.DRINK, ActionInfo = "Do sharks really need to drink?", ClickFunction = "NavigateToDrinkPage", ActionTitle = "Thirst"});
-            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_attention.png", LinkedAction = Actions.ATTENTION, ActionInfo = "Give the little shark some attention!", ClickFunction = "NavigateToAttentionPage", ActionTitle = "Attention Need"});
-            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_friends.png", LinkedAction = Actions.FRIENDS, ActionInfo = "Look for some friends for the little shark.", ClickFunction = "NavigateToFriendsPage", ActionTitle = "Lonelyness"});
-            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_alonetime.png", LinkedAction = Actions.ALONETIME, ActionInfo = "Leave the little shark alone for a while.", ClickFunction = "NavigateToAlonetimePage", ActionTitle = "Stress"});
+            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_attention.png", LinkedAction = Actions.ATTENTION, ActionInfo = "Give the little shark some attention!", ClickFunction = "NavigateToAttentionPage", ActionTitle = "Boredom"});
+            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_friends.png", LinkedAction = Actions.FRIENDS, ActionInfo = "Look for some friends for the little shark.", ClickFunction = "NavigateToFriendsPage", ActionTitle = "Loneliness" });
+            playeractions.Add(new PlayerAction { ImageName = "Shark_pup_alonetime.png", LinkedAction = Actions.ALONETIME, ActionInfo = "Leave the little shark alone for a while.", ClickFunction = "NavigateToAlonetimePage", ActionTitle = "Stimulated" });
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_sleep.png", LinkedAction = Actions.SLEEP, ActionInfo = "Everyone needs a nap!", ClickFunction = "NavigateToSleepPage", ActionTitle = "Tiredness"});
 
             carView_Actions.ItemsSource = PlayerActions;
+        }
+
+        private void increaseValues(object o)
+        {
+            if(statusReductions > 0)
+            {
+                SharkPuppy.hunger += 0.01f;
+                SharkPuppy.thirst += 0.01f;
+                SharkPuppy.boredom += 0.01f;
+                SharkPuppy.loneliness += 0.01f;
+                SharkPuppy.stimulated += 0.01f;
+                SharkPuppy.tired += 0.01f;
+
+                Console.WriteLine("Increasing Values -> " + DateTime.Now);
+
+                UpdatePlayerActionValues();
+            }
+            statusReductions++;
         }
 
         private int ConvertFloatToPercentage(float floatValue)
@@ -141,9 +168,6 @@ namespace Tamagotchi
         }
         private void NavigateToDrinkPage()
         {
-            SharkPuppy.thirst = SharkPuppy.thirst - 0.1f;
-            //if (SharkPuppy.ThirstValue < 0) SharkPuppy.ThirstValue = 0;
-            //else if (SharkPuppy.ThirstValue > 1) SharkPuppy.ThirstValue = 1;
             Console.WriteLine("Navigate to drink");
             Navigation.PushAsync(new DrinkingMinigame());
         }

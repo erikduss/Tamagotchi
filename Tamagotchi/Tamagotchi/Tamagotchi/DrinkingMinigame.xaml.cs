@@ -61,7 +61,9 @@ namespace Tamagotchi
             float newThirstValue = sharkPup.thirst - (imageScale - 1);
             if (newThirstValue < 0) newThirstValue = 0;
 
-            sharkPup.thirst = newThirstValue;
+            float fixedValue = (float)Math.Ceiling(newThirstValue * 100);
+
+            sharkPup.thirst = fixedValue;
 
             if (creatureDataStore.UpdateItem(sharkPup).Result)
             {
