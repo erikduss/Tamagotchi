@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-
+using System.Timers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -93,7 +92,12 @@ namespace Tamagotchi
         {
             if (!timerRunning)
             {
-                fallingTimer = new Timer(ApplyGravity, null, 0, 250);
+                fallingTimer = new Timer
+                {
+                    Interval = 250,
+                    AutoReset = true
+                };
+                fallingTimer.Elapsed += ApplyGravity;
                 timerRunning = true;
                 lbl_score.FontSize = 21;
             }
@@ -120,7 +124,7 @@ namespace Tamagotchi
             }
         }
 
-        private void ApplyGravity(object o)
+        private void ApplyGravity(object o, ElapsedEventArgs e)
         {
             if (timerRunning)
             {
@@ -136,7 +140,6 @@ namespace Tamagotchi
                 fallingTimer = null;
                 CalculateScoreIncease();
                 UpdateTitle();
-                Console.WriteLine("EMD");
                 SaveData();
             }
             else if (timerRunning)
@@ -164,7 +167,7 @@ namespace Tamagotchi
             if (newBoredomValue < 0) newBoredomValue = 0;
 
             int fixedValueInt = (int)Math.Ceiling(newBoredomValue * 100);
-            float fixedValue = (fixedValueInt / 100);
+            float fixedValue = ((float)fixedValueInt) / 100;
 
             sharkPup.boredom = fixedValue;
 
@@ -176,7 +179,12 @@ namespace Tamagotchi
                     lbl_score.FontSize = 18;
                     lbl_score.Text = "Minigame complete, returning to the main page in 5 seconds. Your boredom is reduces by " + scoreInPercentage + "%";
                 });
-                fallingTimer = new Timer(ReturnToMainPage, null, 5000, 5000);
+                fallingTimer = new Timer
+                {
+                    Interval = 5000,
+                    AutoReset = false
+                };
+                fallingTimer.Elapsed += ReturnToMainPage;
             }
             else
             {
@@ -184,7 +192,7 @@ namespace Tamagotchi
             }
         }
 
-        private void ReturnToMainPage(object o)
+        private void ReturnToMainPage(object o, ElapsedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () => await Navigation.PopAsync());
         }

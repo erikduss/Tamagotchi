@@ -2,12 +2,32 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:tamagotchi="clr-namespace:Tamagotchi"
              x:Class="Tamagotchi.FeedingMinigame">
+    <NavigationPage.TitleView>
+        <Label Text="Feeding minigame" HorizontalTextAlignment="Center" Margin="-20,0,0,0" FontAttributes="Bold" FontSize="21" TextColor="LightCyan"/>
+    </NavigationPage.TitleView>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            <tamagotchi:BasicMinigameLayout/>
+        <StackLayout BackgroundColor="PaleVioletRed">
+            <Grid x:Name="minigameGrid" BackgroundColor="SkyBlue">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <StackLayout BackgroundColor="LightPink">
+                <Label x:Name="lbl_score" Text="To feed the little shark, click on as much food as possible." TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
+                <Button Text="Start" TextColor="LightCyan" HorizontalOptions="Center" Clicked="btn_Start_Clicked"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

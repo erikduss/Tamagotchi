@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Timers;
 
 namespace Tamagotchi
 {
@@ -24,8 +24,6 @@ namespace Tamagotchi
 
         public MainPage()
         {
-            var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
-
             BindingContext = this;
 
             InitializeComponent();
@@ -58,7 +56,12 @@ namespace Tamagotchi
 
             statusReductions = 0;
 
-            creatureStatusReduce = new Timer(increaseValues, null, 0, 60000); //every 10 minutes
+            creatureStatusReduce = new Timer
+            {
+                Interval = 12000000, //every 20 minutes
+                AutoReset = true
+            }; 
+            creatureStatusReduce.Elapsed += increaseValues;
         }
 
         private void AddPlayerActions()
@@ -73,7 +76,7 @@ namespace Tamagotchi
             carView_Actions.ItemsSource = PlayerActions;
         }
 
-        private void increaseValues(object o)
+        private void increaseValues(object o, ElapsedEventArgs e)
         {
             if(statusReductions > 0)
             {
@@ -85,7 +88,6 @@ namespace Tamagotchi
                 SharkPuppy.tired += 0.01f;
 
                 UpdatePlayerActionValues();
-                Console.WriteLine(creatureDataStore.UpdateItem(SharkPuppy).Result);
             }
             statusReductions++;
         }
@@ -161,40 +163,29 @@ namespace Tamagotchi
 
         private void NavigateToFeedPage()
         {
-            SharkPuppy.hunger = SharkPuppy.hunger - 0.1f;
-            /*if (SharkPuppy.HungerValue < 0) SharkPuppy.HungerValue = 0;
-            else if (SharkPuppy.HungerValue > 1) SharkPuppy.HungerValue = 1;*/
-            Console.WriteLine("Navigate to feed");
+            Navigation.PushAsync(new FeedingMinigame());
         }
         private void NavigateToDrinkPage()
         {
-            Console.WriteLine("Navigate to drink");
             Navigation.PushAsync(new DrinkingMinigame());
         }
         private void NavigateToAttentionPage()
         {
-            Console.WriteLine("Navigate to attention");
             Navigation.PushAsync(new AttentionMinigame());
         }
         private void NavigateToFriendsPage()
         {
+            //TODO: Figure out what to do with the playground
             SharkPuppy.loneliness = SharkPuppy.loneliness - 0.1f;
-            //if (SharkPuppy.FriendsNeededValue < 0) SharkPuppy.FriendsNeededValue = 0;
-            //else if (SharkPuppy.FriendsNeededValue > 1) SharkPuppy.FriendsNeededValue = 1;
             Console.WriteLine("Navigate to friends");
         }
         private void NavigateToAlonetimePage()
         {
-            SharkPuppy.stimulated = SharkPuppy.stimulated - 0.1f;
-            //if (SharkPuppy.AloneTimeValue < 0) SharkPuppy.AloneTimeValue = 0;
-            //else if (SharkPuppy.AloneTimeValue > 1) SharkPuppy.AloneTimeValue = 1;
-            Console.WriteLine("Navigate to alone time");
+            Navigation.PushAsync(new StimulatedMinigame());
         }
         private void NavigateToSleepPage()
         {
             SharkPuppy.tired = SharkPuppy.tired - 0.1f;
-            //if (SharkPuppy.TiredValue < 0) SharkPuppy.TiredValue = 0;
-            //else if (SharkPuppy.TiredValue > 1) SharkPuppy.TiredValue = 1;
             Console.WriteLine("Navigate to sleep");
         }
     }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -45,7 +45,12 @@ namespace Tamagotchi
         {
             if (!timerRunning)
             {
-                countdownTimer = new Timer(reduceScore, null, 0, 250);
+                countdownTimer = new Timer
+                {
+                    Interval = 250,
+                    AutoReset = true
+                };
+                countdownTimer.Elapsed += reduceScore;
                 timerRunning = true;
                 UpdateTitle();
                 lbl_score.FontSize = 21;
@@ -62,7 +67,7 @@ namespace Tamagotchi
             if (newThirstValue < 0) newThirstValue = 0;
 
             int fixedValueInt = (int)Math.Ceiling(newThirstValue *100);
-            float fixedValue = (fixedValueInt / 100);
+            float fixedValue = ((float)fixedValueInt) / 100;
 
             sharkPup.thirst = fixedValue;
 
@@ -73,7 +78,13 @@ namespace Tamagotchi
                     lbl_score.FontSize = 18;
                     lbl_score.Text = "Minigame complete, returning to the main page in 5 seconds. Your thirst is reduces by " + scoreInPercentage + "%";
                 });
-                countdownTimer = new Timer(ReturnToMainPage, null, 5000, 5000);
+                countdownTimer = new Timer
+                {
+                    Interval = 5000,
+                    AutoReset = false
+                };
+
+                countdownTimer.Elapsed += ReturnToMainPage;
             }
             else
             {
@@ -81,12 +92,12 @@ namespace Tamagotchi
             }
         }
 
-        private void ReturnToMainPage(object o)
+        private void ReturnToMainPage(object o, ElapsedEventArgs e)
         {
             Device.BeginInvokeOnMainThread(async () => await Navigation.PopAsync());
         }
 
-        private void reduceScore(object o)
+        private void reduceScore(object o, ElapsedEventArgs e)
         {
             if(imageScale > 1 && timerRunning)
             {
