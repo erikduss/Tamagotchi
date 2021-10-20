@@ -40,7 +40,7 @@ namespace Tamagotchi
             {
                 SharkPuppy = new Creature
                 {
-                    name = "Erik's Tamagotchi",
+                    name = "Sharky",
                     userName = "Erik",
                     hunger = 0.5f,
                     thirst = 0.5f,
@@ -185,8 +185,7 @@ namespace Tamagotchi
         }
         private void NavigateToSleepPage()
         {
-            SharkPuppy.tired = SharkPuppy.tired - 0.1f;
-            Console.WriteLine("Navigate to sleep");
+            Navigation.PushAsync(new SleepingMinigame());
         }
     }
 }

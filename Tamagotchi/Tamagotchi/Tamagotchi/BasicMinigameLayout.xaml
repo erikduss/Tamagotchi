@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tamagotchi.BasicMinigameLayout">
   <ContentView.Content>
-      <StackLayout BackgroundColor="LightPink" HorizontalOptions="Center">
-          <Label Text="Minigame explaination" TextColor="LightCyan"/>
-            <Button Text="Start" TextColor="LightCyan"/>
+        <StackLayout BackgroundColor="LightPink" Grid.Row="1" Grid.Column="0">
+            <Label x:Name="lbl_score" Text="" TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
+            <Button Text="Start" TextColor="LightCyan" HorizontalOptions="Center"/>
         </StackLayout>
-  </ContentView.Content>
+    </ContentView.Content>
 </ContentView>

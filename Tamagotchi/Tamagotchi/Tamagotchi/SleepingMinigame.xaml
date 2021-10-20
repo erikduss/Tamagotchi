@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tamagotchi.SleepingMinigame">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <ImageButton x:Name="img_SharkPup" Source="Shark_pup_sleeping.png" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0" BorderColor="Transparent" BackgroundColor="Transparent"/>
+
+            <StackLayout BackgroundColor="LightPink" Grid.Row="1" Grid.Column="0">
+                <Label x:Name="lbl_score" Text="Dont know yet" TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
+                <Button Text="Start" TextColor="LightCyan" HorizontalOptions="Center"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

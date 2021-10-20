@@ -116,17 +116,17 @@ namespace Tamagotchi
             switch (CreatureStatus)
             {
                 case >= 1.0f:
-                    return "I'm feeling really terrible!";
+                    return "I'm feeling really terrible! I won't last long anymore like this.";
                 case > 0.75f:
-                    return "I'm feeling quite bad";
+                    return "I'm feeling quite bad. I really need you to help me.";
                 case > 0.5f:
-                    return "I'm feeling a bit bad.";
+                    return "I'm feeling a bit bad. You should probably help me before leaving me.";
                 case > 0.25f:
-                    return "I'm feeling alright";
+                    return "I'm feeling alright. It could be worse.";
                 case > 0f:
-                    return "I'm feeling good!";
+                    return "I'm feeling good! Thank you for taking care of me!";
                 case  0f:
-                    return "I'm feeling great!";
+                    return "I'm feeling great! Thank you for taking care of me!";
                 default:
                     return "I don't know how I got here";
             }

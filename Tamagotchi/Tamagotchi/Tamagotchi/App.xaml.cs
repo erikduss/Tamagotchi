@@ -46,7 +46,7 @@ namespace Tamagotchi
             {
                 SharkPuppy = new Creature
                 {
-                    name = "Erik's Tamagotchi",
+                    name = "Sharky",
                     userName = "Erik",
                     hunger = 0.5f,
                     thirst = 0.5f,

@@ -121,6 +121,9 @@ namespace Tamagotchi
 
                     if (response.IsSuccessStatusCode)
                     {
+                        //Set the updated time in case the app gets closed incorrectly or unexpectedly
+                        var sleepTime = DateTime.Now;
+                        Preferences.Set("SleepTime", sleepTime);
                         return true;
                     }
                     else
