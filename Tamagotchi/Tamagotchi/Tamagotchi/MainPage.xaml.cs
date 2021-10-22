@@ -56,6 +56,7 @@ namespace Tamagotchi
 
             statusReductions = 0;
 
+            //The timer that increases the values of hunger, thirst, etc overtime.
             creatureStatusReduce = new Timer
             {
                 Interval = 12000000, //every 20 minutes
@@ -66,6 +67,12 @@ namespace Tamagotchi
 
         private void AddPlayerActions()
         {
+            //The player actions are used for displaying in the CarouselView.
+
+            //ActionInfo = Header description.
+            //LinkedAction = The enum related to the action.
+            //ActionTitle = The name of the stat it will affect.
+
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_food.png", LinkedAction = Actions.FEED, ActionInfo = "Feeding time!", ClickFunction = "NavigateToFeedPage", ActionTitle = "Hunger"});
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_drink.png", LinkedAction = Actions.DRINK, ActionInfo = "Do sharks really need to drink?", ClickFunction = "NavigateToDrinkPage", ActionTitle = "Thirst"});
             playeractions.Add(new PlayerAction { ImageName = "Shark_pup_attention.png", LinkedAction = Actions.ATTENTION, ActionInfo = "Give the little shark some attention!", ClickFunction = "NavigateToAttentionPage", ActionTitle = "Boredom"});
@@ -100,27 +107,28 @@ namespace Tamagotchi
 
         private void btn_Clicked(object sender, EventArgs e)
         {
+            //Every playeraction in the CarouselView has this btn clicked function assigned to it. The correct function gets selected here based on the CarouselView index.
             PlayerAction curAction = playeractions[carView_Actions.Position];
 
             switch (curAction.LinkedAction)
             {
                 case Actions.FEED:
-                    NavigateToFeedPage();
+                    Navigation.PushAsync(new FeedingMinigame());
                     break;
                 case Actions.DRINK:
-                    NavigateToDrinkPage();
+                    Navigation.PushAsync(new DrinkingMinigame());
                     break;
                 case Actions.ATTENTION:
-                    NavigateToAttentionPage();
+                    Navigation.PushAsync(new AttentionMinigame());
                     break;
                 case Actions.FRIENDS:
-                    NavigateToFriendsPage();
+                    Navigation.PushAsync(new PlaygroundWindow());
                     break;
                 case Actions.ALONETIME:
-                    NavigateToAlonetimePage();
+                    Navigation.PushAsync(new StimulatedMinigame());
                     break;
                 case Actions.SLEEP:
-                    NavigateToSleepPage();
+                    Navigation.PushAsync(new SleepingMinigame());
                     break;
                 default:
                     Console.WriteLine("Player action not defined");
@@ -132,7 +140,8 @@ namespace Tamagotchi
 
         private void UpdatePlayerActionValues()
         {
-            foreach(PlayerAction item in playeractions)
+            //Update for the percentage values in the CarouselView overview.
+            foreach (PlayerAction item in playeractions)
             {
                 switch (item.LinkedAction)
                 {
@@ -159,33 +168,6 @@ namespace Tamagotchi
                         break;
                 }
             }
-        }
-
-        private void NavigateToFeedPage()
-        {
-            Navigation.PushAsync(new FeedingMinigame());
-        }
-        private void NavigateToDrinkPage()
-        {
-            Navigation.PushAsync(new DrinkingMinigame());
-        }
-        private void NavigateToAttentionPage()
-        {
-            Navigation.PushAsync(new AttentionMinigame());
-        }
-        private void NavigateToFriendsPage()
-        {
-            //TODO: Figure out what to do with the playground
-            SharkPuppy.loneliness = SharkPuppy.loneliness - 0.1f;
-            Console.WriteLine("Navigate to friends");
-        }
-        private void NavigateToAlonetimePage()
-        {
-            Navigation.PushAsync(new StimulatedMinigame());
-        }
-        private void NavigateToSleepPage()
-        {
-            Navigation.PushAsync(new SleepingMinigame());
         }
     }
 }

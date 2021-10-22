@@ -51,6 +51,7 @@ namespace Tamagotchi
                     AutoReset = true
                 };
                 countdownTimer.Elapsed += reduceScore;
+                countdownTimer.Start();
                 timerRunning = true;
                 UpdateTitle();
                 lbl_score.FontSize = 21;
@@ -85,6 +86,7 @@ namespace Tamagotchi
                 };
 
                 countdownTimer.Elapsed += ReturnToMainPage;
+                countdownTimer.Start();
             }
             else
             {
@@ -111,7 +113,7 @@ namespace Tamagotchi
             {
                 timerRunning = false;
                 UpdateTitle();
-                countdownTimer = null;
+                countdownTimer.Stop();
                 SaveData();
             }
             else if (timerRunning)

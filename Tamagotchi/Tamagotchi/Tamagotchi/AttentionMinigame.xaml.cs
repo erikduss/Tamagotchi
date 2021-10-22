@@ -98,6 +98,7 @@ namespace Tamagotchi
                     AutoReset = true
                 };
                 fallingTimer.Elapsed += ApplyGravity;
+                fallingTimer.Start();
                 timerRunning = true;
                 lbl_score.FontSize = 21;
             }
@@ -137,7 +138,7 @@ namespace Tamagotchi
             if (timerCalled == 80)
             {
                 timerRunning = false;
-                fallingTimer = null;
+                fallingTimer.Stop();
                 CalculateScoreIncease();
                 UpdateTitle();
                 SaveData();
@@ -185,6 +186,7 @@ namespace Tamagotchi
                     AutoReset = false
                 };
                 fallingTimer.Elapsed += ReturnToMainPage;
+                fallingTimer.Start();
             }
             else
             {

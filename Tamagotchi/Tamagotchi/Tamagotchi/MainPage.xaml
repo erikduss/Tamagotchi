@@ -16,7 +16,7 @@
 
         <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Vertical" BackgroundColor="LightPink">
             <Label Text="Little Shark's Status:" TextColor="LightCyan" FontAttributes="Bold" FontSize="21" HorizontalOptions="Center"/>
-            <Label Text="{Binding SharkPuppy.StatusText}" TextColor="LightCyan" FontAttributes="Bold" FontSize="17" HorizontalOptions="Center"/>
+            <Label Text="{Binding SharkPuppy.StatusText}" TextColor="LightCyan" FontAttributes="Bold" FontSize="17" HorizontalOptions="Center" WidthRequest="350" HorizontalTextAlignment="Center"/>
         </StackLayout>
         
         <StackLayout Grid.Row="1" Grid.Column="0">

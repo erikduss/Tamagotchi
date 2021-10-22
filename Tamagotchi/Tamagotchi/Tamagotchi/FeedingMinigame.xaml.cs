@@ -126,8 +126,7 @@ namespace Tamagotchi
         private void EndMinigame(object o, ElapsedEventArgs e)
         {
             timerRunning = false;
-            minigameTimer = null;
-            Console.WriteLine(score);
+            minigameTimer.Stop();
             UpdateTitle();
             SaveData();
         }
@@ -162,6 +161,7 @@ namespace Tamagotchi
                     AutoReset = false
                 };
                 minigameTimer.Elapsed += ReturnToMainPage;
+                minigameTimer.Start();
             }
             else
             {

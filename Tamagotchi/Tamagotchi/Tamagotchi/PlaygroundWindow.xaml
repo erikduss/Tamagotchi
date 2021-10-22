@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tamagotchi.PlaygroundWindow">
+    <NavigationPage.TitleView>
+        <Label Text="The Playground" HorizontalTextAlignment="Center" Margin="-20,0,0,0" FontAttributes="Bold" FontSize="21" TextColor="LightCyan"/>
+    </NavigationPage.TitleView>
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="img_SharkPup" Source="Shark_pup_idle.png" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0" BackgroundColor="Transparent"/>
+
+            <StackLayout BackgroundColor="LightPink" Grid.Row="1" Grid.Column="0">
+                <Label x:Name="lbl_score" Text="Welcome to the playground! To let the little shark play with other creatures, click on start." TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
+                <Button x:Name="btn_start" Text="Start" TextColor="LightCyan" HorizontalOptions="Center" Clicked="btn_Start_Clicked"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
