@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Xamarin.Essentials;
@@ -47,11 +44,14 @@ namespace Tamagotchi
 
                 timerRunning = true;
                 lbl_score.FontSize = 18;
-                btn_start.Text = "Stop";
-                //UpdateCurrentCreatures();
-                //UpdateTitle();
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    btn_start.Text = "Stop";
+                });
+                _ = UpdateCurrentCreaturesAsync();
+                UpdateTitle();
             }
-            else //The start button became a stop button
+            else if(timerRunning)//The start button became a stop button
             {
                 StopPlaygroundTime();
             }
@@ -66,7 +66,6 @@ namespace Tamagotchi
 
         private void ReduceLoneliness(object o, ElapsedEventArgs e)
         {
-            _ = UpdateCurrentCreaturesAsync();
             score += (0.0025f * amountOfOtherCreaturesActive);
 
             UpdateTitle();
@@ -86,6 +85,12 @@ namespace Tamagotchi
                 }
                 else
                 {
+                    var getResponse = await client.GetAsync("https://tamagotchi.hku.nl/api/Playground/" + creatureID);
+
+                    if (getResponse.IsSuccessStatusCode)
+                    {
+                        connectedToPlayground = true;
+                    }
                     return false;
                 }
             }
@@ -153,19 +158,21 @@ namespace Tamagotchi
 
         private void StopPlaygroundTime()
         {
-            minigameTimer.Stop();
-            timerRunning = false;
+            if (timerRunning)
+            {
+                minigameTimer.Stop();
+                timerRunning = false;
+            }
             SaveData();
-            _ = DisconnectFromPlayground();
         }
 
-        private void SaveData()
+        private async void SaveData()
         {
             var creatureDataStore = DependencyService.Get<IDataStore<Creature>>();
 
-            Creature sharkPup = creatureDataStore.ReadItem().Result;
+            Creature sharkPup = await creatureDataStore.ReadItem();
 
-            float newLonelinessValue = sharkPup.loneliness - (score / 100);
+            float newLonelinessValue = sharkPup.loneliness - (score);
             if (newLonelinessValue < 0) newLonelinessValue = 0;
 
             int fixedValueInt = (int)Math.Ceiling(newLonelinessValue * 100);
@@ -173,19 +180,35 @@ namespace Tamagotchi
 
             sharkPup.loneliness = fixedValue;
 
-            if (creatureDataStore.UpdateItem(sharkPup).Result)
+            bool updateSuccess = await creatureDataStore.UpdateItem(sharkPup);
+
+            if (updateSuccess)
             {
+                _ = DisconnectFromPlayground();
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     int scoreInPercentage = ConvertFloatToPercentage(score);
                     lbl_score.FontSize = 18;
                     lbl_score.Text = "Minigame complete, returning to the main page in 5 seconds. Your loneliness is reduces by " + scoreInPercentage + "%";
                 });
+
+                minigameTimer = new Timer
+                {
+                    Interval = 5000,
+                    AutoReset = true
+                };
+                minigameTimer.Elapsed += ReturnToMainPage;
+                minigameTimer.Start();
             }
             else
             {
                 throw new Exception();
             }
+        }
+
+        private void ReturnToMainPage(object o, ElapsedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(async () => await Navigation.PopAsync());
         }
 
         private int ConvertFloatToPercentage(float floatValue)
@@ -198,9 +221,10 @@ namespace Tamagotchi
         {
             int scoreInPercentage = ConvertFloatToPercentage(score);
 
-            lbl_score.Text = "Loneliness decrease earned: " + scoreInPercentage + "%! There are currently " + amountOfOtherCreaturesActive + " other creatures in the playground.";
-
-            Console.WriteLine(scoreInPercentage);
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                lbl_score.Text = "Loneliness decrease earned: " + scoreInPercentage + "%! There are currently " + amountOfOtherCreaturesActive + " other creatures in the playground.";
+            });
         }
 
         protected override void OnDisappearing()

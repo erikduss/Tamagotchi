@@ -7,7 +7,7 @@
     </NavigationPage.TitleView>
     
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="SkyBlue">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="100" />

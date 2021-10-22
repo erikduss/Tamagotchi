@@ -5,14 +5,24 @@
     <NavigationPage.TitleView>
         <Label Text="Stimulated minigame" HorizontalTextAlignment="Center" Margin="-20,0,0,0" FontAttributes="Bold" FontSize="21" TextColor="LightCyan"/>
     </NavigationPage.TitleView>
-    
+
     <ContentPage.Content>
-        <StackLayout BackgroundColor="PaleVioletRed">
-            
-            <StackLayout BackgroundColor="LightPink">
-                <Label x:Name="lbl_score" Text="To decrease the little shark's stimulation... Just leave it alone for at least 10 minutes." TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
-                <Button Text="Start" TextColor="LightCyan" HorizontalOptions="Center" Clicked="btn_Start_Clicked"/>
-            </StackLayout>
-        </StackLayout>
+        <Grid BackgroundColor="SkyBlue">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+
+            <Image Source="Shark_pup_idle.png" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0" BackgroundColor="Transparent"/>
+
+                <StackLayout BackgroundColor="LightPink" Grid.Row="1" Grid.Column="0">
+                    <Label x:Name="lbl_score" Text="To decrease the little shark's stimulation... Just leave it alone for at least 10 minutes." TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
+                    <Button Text="Start" TextColor="LightCyan" HorizontalOptions="Center" Clicked="btn_Start_Clicked"/>
+                </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

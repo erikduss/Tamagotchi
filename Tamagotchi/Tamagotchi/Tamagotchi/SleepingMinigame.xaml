@@ -19,8 +19,8 @@
             <ImageButton x:Name="img_SharkPup" Source="Shark_pup_sleeping.png" HeightRequest="100" WidthRequest="100" Grid.Row="0" Grid.Column="0" BorderColor="Transparent" BackgroundColor="Transparent"/>
 
             <StackLayout BackgroundColor="LightPink" Grid.Row="1" Grid.Column="0">
-                <Label x:Name="lbl_score" Text="Dont know yet" TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
-                <Button Text="Start" TextColor="LightCyan" HorizontalOptions="Center"/>
+                <Label x:Name="lbl_score" Text="To let little shark sleep, press the sleep button 10 times." TextColor="LightCyan" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="16"  HorizontalTextAlignment="Center"/>
+                <Button Text="Sleep" TextColor="LightCyan" HorizontalOptions="Center" Clicked="btn_Sleep_Clicked"/>
             </StackLayout>
         </Grid>
     </ContentPage.Content>
